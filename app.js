@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require('express')
 var cors = require('cors')
 
@@ -17,7 +19,7 @@ var corsOptions = {
 app.use(cors(corsOptions))
 
 const http = require('http').Server(app)
-const port = 500
+const port = process.env.PORT
 
 const chatsRoute = require('./routes/chats')
 const messagesRoute = require('./routes/messages')
