@@ -1,28 +1,25 @@
 const express = require('express')
-var cors = require('cors')
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const chatsRoute = require('./routes/chats')
+const MessageSchema = require('./models/MessageSchema')
+const dbconnect = require('./dbconnect')
 
 const app = express()
-
-var bodyParser = require('body-parser')
 
 app.use(bodyParser.urlencoded({
   extended: true,
 }))
 app.use(bodyParser.json())
 
-var corsOptions = {
+const corsOptions = {
   origin: '*',
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, constious SmartTVs) choke on 204
 }
 app.use(cors(corsOptions))
 
 const http = require('http').Server(app)
 const port = process.env.PORT
-
-const chatsRoute = require('./routes/chats')
-
-const MessageSchema = require('./models/MessageSchema')
-const dbconnect = require('./dbconnect')
 
 // api
 app.use('/chats', chatsRoute)
