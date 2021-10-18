@@ -20,14 +20,12 @@ const http = require('http').Server(app)
 const port = process.env.PORT
 
 const chatsRoute = require('./routes/chats')
-const messagesRoute = require('./routes/messages')
 
 const MessageSchema = require('./models/MessageSchema')
 const dbconnect = require('./dbconnect')
 
 // api
 app.use('/chats', chatsRoute)
-app.use('/messages', messagesRoute)
 
 // Sockets
 const io = require('socket.io')(http, {
