@@ -21,7 +21,7 @@ router.route('/').post((req, res, next) => {
     console.log(req.body)
     const chat = new Chats({ title: req.body.title })
     chat.save(() => {
-      res.json({ chat: chat, status: 'ok' })
+      res.json(chat)
     })
   })
 })
