@@ -1,6 +1,7 @@
 const express = require('express')
 const dbconnect = require('./../dbconnect')
 const Chats = require('./../models/ChatSchema')
+const Messages = require('./../models/MessageSchema')
 
 const router = express.Router()
 
@@ -22,6 +23,16 @@ router.route('/').post((req, res, next) => {
     const chat = new Chats({ title: req.body.title })
     chat.save(() => {
       res.json(chat)
+    })
+  })
+})
+
+router.route('/:chatId/messages').get((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json')
+  res.statusCode = 200
+  dbconnect.then(db => {
+    Messages.find({ chatId: req.params.chatId }).then(messages => {
+      res.json(messages)
     })
   })
 })
