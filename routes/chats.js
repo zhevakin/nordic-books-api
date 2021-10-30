@@ -30,8 +30,16 @@ router.route('/:chatId').delete((req, res, next) => {
   res.setHeader('Content-Type', 'application/json')
   res.statusCode = 200
   dbconnect.then(db => {
-    Messages.findOneAndDelete({ chatId: req.params.chatId }).then(messages => {
-      res.json(messages)
+    Chats.findByIdAndRemove(req.params.chatId, req.body, (err) => {
+      if (err) {
+        res.json({
+          error: err
+        })
+        return
+      }
+      res.json({
+        status: 'ok'
+      })
     })
   })
 })
