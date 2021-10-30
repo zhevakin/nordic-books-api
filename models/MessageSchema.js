@@ -11,6 +11,9 @@ const messageSchema = new Schema(
     name: {
       type: String,
     },
+    userId: {
+      type: String,
+    }
   },
   {
     timestamps: true,
