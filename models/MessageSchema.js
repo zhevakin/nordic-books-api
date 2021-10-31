@@ -13,6 +13,9 @@ const messageSchema = new Schema(
     },
     userId: {
       type: String,
+    },
+    imageUrl: {
+      type: String,
     }
   },
   {

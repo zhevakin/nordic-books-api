@@ -1,11 +1,15 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
 const chatsRoute = require('./routes/chats')
+const uploadRoute = require('./routes/upload')
 const MessageSchema = require('./models/MessageSchema')
 const dbconnect = require('./dbconnect')
 
 const app = express()
+
+app.use(fileUpload())
 
 app.use(bodyParser.urlencoded({
   extended: true,
@@ -23,6 +27,7 @@ const port = process.env.PORT
 
 // api
 app.use('/chats', chatsRoute)
+app.use('/upload', uploadRoute)
 
 // Sockets
 const io = require('socket.io')(http, {
