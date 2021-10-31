@@ -17,10 +17,10 @@ const messageSchema = new Schema(
     imageURL: {
       type: String,
     },
-    lat: {
+    latitude: {
       type: Number,
     },
-    lng: {
+    longitude: {
       type: Number,
     }
   },
