@@ -16,6 +16,12 @@ const messageSchema = new Schema(
     },
     imageURL: {
       type: String,
+    },
+    lat: {
+      type: Number,
+    },
+    lng: {
+      type: Number,
     }
   },
   {
