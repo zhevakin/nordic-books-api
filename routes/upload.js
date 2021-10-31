@@ -34,7 +34,7 @@ router.route('/').post(async (req, res) => {
     res.send({
       "status": "ok",
       "data": data,
-      fileUrl: data.Location
+      fileURL: data.Location
     });
   });
 
