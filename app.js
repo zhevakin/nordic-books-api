@@ -43,7 +43,7 @@ io.on('connection', socket => {
 
     //save chat to the database
     dbconnect.then(db => {
-      const newMessage = new MessageSchema({ chatId: message.chatId, text: message.text, name: message.name })
+      const newMessage = new MessageSchema({ chatId: message.chatId, text: message.text, name: message.name, imageURL: message.imageURL });
       newMessage.save((err, value) => {
         io.emit('new message', value)
       })
