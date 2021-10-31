@@ -14,7 +14,7 @@ const messageSchema = new Schema(
     userId: {
       type: String,
     },
-    imageUrl: {
+    imageURL: {
       type: String,
     }
   },

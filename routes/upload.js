@@ -15,7 +15,6 @@ router.route('/').post(async (req, res) => {
   const s3 = new AWS.S3();
 
   // Binary data base64
-  console.log(req.files)
   const fileContent  = Buffer.from(req.files.uploadedFile.data, 'binary');
 
   // Setting up S3 upload parameters
