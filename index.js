@@ -29,6 +29,7 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
         .catch(error => console.error(error))
     })
 
+    // Книга по id
     app.get('/books/:id', function (req, res) {
       booksCollection.findOne({ _id: new ObjectId(req.params.id) })
         .then(results => {
