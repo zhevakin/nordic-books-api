@@ -5,6 +5,8 @@ const express = require('express')
 const bodyParser= require('body-parser')
 const cors = require('cors')
 
+const port = process.env.PORT || 3000
+
 const app = express()
 
 app.use(bodyParser.json())
@@ -50,7 +52,7 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
         })
     })
 
-    app.listen(3000, function() {
+    app.listen(port, function() {
       console.log('listening on 3000')
     })
 
