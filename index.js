@@ -46,7 +46,6 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
     app.post('/books', (req, res) => {
       const userId = req.headers['user-id']
       const cover = req?.files?.cover
-      console.log(req.body)
 
       if (cover) {
         upload(cover).then(data => {
@@ -68,7 +67,6 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
           res.json(result)
         })
       }
-
     })
 
     // Удаление книги
@@ -81,13 +79,28 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
 
     // Обновление книги
     app.put('/books/:id', (req, res) => {
-      booksCollection.updateOne({ _id: new ObjectId(req.params.id) }, {$set: {
-          author: req.body.author,
-          title: req.body.title,
-        }})
-        .then(result => {
-          res.json(result)
+      const cover = req?.files?.cover
+
+      if (cover) {
+        upload(cover).then(data => {
+          booksCollection.updateOne({ _id: new ObjectId(req.params.id) }, {$set: {
+              author: req.body.author,
+              title: req.body.title,
+              imageUrl: data.Location,
+            }})
+            .then(result => {
+              res.json(result)
+            })
         })
+      } else {
+        booksCollection.updateOne({ _id: new ObjectId(req.params.id) }, {$set: {
+            author: req.body.author,
+            title: req.body.title,
+          }})
+          .then(result => {
+            res.json(result)
+          })
+      }
     })
 
     app.listen(port, function() {
