@@ -46,16 +46,27 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
       const userId = req.headers['user-id']
 
       const cover = req.files.cover
-      upload(cover).then(data => {
+
+      if (cover) {
+        upload(cover).then(data => {
+          booksCollection.insertOne({
+            author: req.body.author,
+            title: req.body.title,
+            imageUrl: data.Location,
+            ...(userId ? { userId } : {})
+          }).then(result => {
+            res.json(result)
+          })
+        })
+      } else {
         booksCollection.insertOne({
           author: req.body.author,
           title: req.body.title,
-          imageUrl: data.Location,
           ...(userId ? { userId } : {})
         }).then(result => {
           res.json(result)
         })
-      })
+      }
 
     })
 
