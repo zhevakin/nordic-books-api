@@ -15,6 +15,7 @@ app.use(fileUpload())
 app.use(bodyParser.urlencoded({
   extended: true,
 }))
+app.use(bodyParser.json())
 
 MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
   .then(client => {
@@ -44,8 +45,8 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
     // Добавление книги
     app.post('/books', (req, res) => {
       const userId = req.headers['user-id']
-
-      const cover = req.files.cover
+      const cover = req?.files?.cover
+      console.log(req.body)
 
       if (cover) {
         upload(cover).then(data => {
