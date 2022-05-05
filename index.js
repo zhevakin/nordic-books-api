@@ -4,14 +4,17 @@ const { MongoClient, ObjectId } = require('mongodb')
 const express = require('express')
 const bodyParser= require('body-parser')
 const cors = require('cors')
+const fileUpload = require('express-fileupload')
+const upload = require('./upload')
 
 const port = process.env.PORT || 3000
-
 const app = express()
 
-app.use(bodyParser.json())
-
 app.use(cors({ origin: '*' }))
+app.use(fileUpload())
+app.use(bodyParser.urlencoded({
+  extended: true,
+}))
 
 MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
   .then(client => {
@@ -41,13 +44,19 @@ MongoClient.connect(process.env.MONGODB_URI, { useUnifiedTopology: true })
     // Добавление книги
     app.post('/books', (req, res) => {
       const userId = req.headers['user-id']
-      booksCollection.insertOne({
-        author: req.body.author,
-        title: req.body.title,
-        ...(userId ? { userId } : {})
-      }).then(result => {
-        res.json(result)
+
+      const cover = req.files.cover
+      upload(cover).then(data => {
+        booksCollection.insertOne({
+          author: req.body.author,
+          title: req.body.title,
+          imageUrl: data.Location,
+          ...(userId ? { userId } : {})
+        }).then(result => {
+          res.json(result)
+        })
       })
+
     })
 
     // Удаление книги
