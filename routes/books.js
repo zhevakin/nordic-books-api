@@ -15,7 +15,7 @@ router.route('/').get(async (req, res) => {
   const pageInt = parseInt(page)
   const pageSizeInt = parseInt(pageSize)
   const offsetInt = parseInt(pageInt * pageSizeInt)
-  const data = await booksCollection.find(filter).skip(offsetInt).limit(pageSize).toArray().reverse()
+  const data = await booksCollection.find(filter).skip(offsetInt).limit(pageSize).toArray()
   const total = await booksCollection.countDocuments(filter)
   const totalPages = Math.ceil(total / pageSizeInt)
   res.json({ data, page: pageInt, pageSize: pageSizeInt, totalPages, total })
@@ -103,7 +103,7 @@ router.route('/:id').put( async (req, res) => {
 router.route('/:id/comments').get( async (req, res) => {
   const commentsCollection = (await dbConnect()).db('books').collection('comments');
 
-  const data = await commentsCollection.find({ bookId: new ObjectId(req.params.id) }).toArray().reverse()
+  const data = await commentsCollection.find({ bookId: new ObjectId(req.params.id) }).toArray()
   res.json({
     data
   })
