@@ -15,7 +15,7 @@ router.route('/').get(async (req, res) => {
   const pageInt = parseInt(page)
   const pageSizeInt = parseInt(pageSize)
   const offsetInt = parseInt(pageInt * pageSizeInt)
-  const data = await booksCollection.find(filter).skip(offsetInt).limit(pageSize).toArray()
+  const data = await booksCollection.find(filter).sort({_id: -1}).skip(offsetInt).limit(pageSize).toArray()
   const total = await booksCollection.countDocuments(filter)
   const totalPages = Math.ceil(total / pageSizeInt)
   res.json({ data, page: pageInt, pageSize: pageSizeInt, totalPages, total })
