@@ -22,7 +22,7 @@ router.route('/').get(async (req, res) => {
 })
 
 // Книга по id
-router.route(':id').get( async (req, res) => {
+router.route('/:id').get( async (req, res) => {
   const booksCollection = (await dbConnect()).db('books').collection('books');
 
   booksCollection.findOne({ _id: new ObjectId(req.params.id) })
