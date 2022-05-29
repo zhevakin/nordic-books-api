@@ -103,10 +103,14 @@ router.route('/:id').put( async (req, res) => {
 router.route('/:id/comments').get( async (req, res) => {
   const commentsCollection = (await dbConnect()).db('books').collection('comments');
 
-  const data = await commentsCollection.find({ bookId: new ObjectId(req.params.id) }).toArray()
-  res.json({
-    data
-  })
+  try {
+    const data = await commentsCollection.find({ bookId: new ObjectId(req.params.id) }).toArray()
+    res.json({
+      data
+    })
+  } catch (error) {
+    res.send('error')
+  }
 })
 
 // Добавление комментария
