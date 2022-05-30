@@ -117,17 +117,21 @@ router.route('/:id/comments').get( async (req, res) => {
 router.route('/:id/comments').post(async (req, res) => {
   const commentsCollection = (await dbConnect()).db('books').collection('comments');
 
-  const userId = req.headers['user-id']
-  const bookId = new ObjectId(req.params.id)
+  try {
+    const userId = req.headers['user-id']
+    const bookId = new ObjectId(req.params.id)
 
-  commentsCollection.insertOne({
-    bookId,
-    name: req.body.name,
-    text: req.body.text,
-    ...(userId ? { userId } : {})
-  }).then(result => {
-    res.json(result)
-  })
+    commentsCollection.insertOne({
+      bookId,
+      name: req.body.name,
+      text: req.body.text,
+      ...(userId ? { userId } : {})
+    }).then(result => {
+      res.json(result)
+    })
+  } catch (error) {
+    res.send('error')
+  }
 })
 
 module.exports = router;
