@@ -65,10 +65,14 @@ router.route('/').post(async (req, res) => {
 router.route('/:id').delete(async (req, res) => {
   const booksCollection = (await dbConnect()).db('books').collection('books');
 
-  booksCollection.deleteOne({ _id: new ObjectId(req.params.id) })
-    .then(result => {
-      res.json(result)
-    })
+  try {
+    booksCollection.deleteOne({ _id: new ObjectId(req.params.id) })
+      .then(result => {
+        res.json(result)
+      })
+  } catch (error) {
+    res.send('error')
+  }
 })
 
 // Обновление книги
